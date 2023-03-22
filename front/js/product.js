@@ -3,7 +3,6 @@ const id = params.get("id")
 
 const url = `http://localhost:3000/api/products/${id}`
 
-const getArticle = () => {
     fetch(url)
     .then(function(res) {
         return res.json()
@@ -12,7 +11,7 @@ const getArticle = () => {
         console.log(data)
         const addTitle = (document.getElementById("title").innerHTML=data.name)
         const addPrice = (document.getElementById("price").innerHTML=data.price)
-        const addImg = document.createElement("item__img")
+        const addImg = document.createElement("img")
         document.querySelector(".item__img").appendchild(addImg)
         addImg.setAttribute("src", `${data.imageUrl}`)
         const addDescription = (document.getElementById("description").innerHTML=data.description)
@@ -22,7 +21,6 @@ const getArticle = () => {
         }
 
     })
-}
 
 
 const addToCart = document .getElementById("addToCart")

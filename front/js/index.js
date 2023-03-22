@@ -28,7 +28,7 @@ async function display()
         descriptionElement.classList.add("productDescription");
         descriptionElement.innerText = canape[i].description;
        
-        // Rattacher la balise "a" à la section items
+        // Rattacher la balise "a" (lien) à la section items
         sectionItems.appendChild(linkElement);
         // Rattacher la balise article à la section items
         linkElement.appendChild(canapeElement);
