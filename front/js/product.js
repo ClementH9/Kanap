@@ -36,16 +36,15 @@ function addToCart() {
         const quantity = document.getElementById("quantity");
 
     addBtn.addEventListener("click", () => {
+
+        // vérifier si les données quantité et couleur sont valides avec la fonction if
+        if (color.value !== "" && quantity.value != 0 && quantity.value <= 100) {
+
         //stocker les données dans des variables  
         //On ne déclare que ces 2 là car on ne cherche que celles-là dans le panier (et l'ID est déjà déclaré)      
         const productId = id;
         const productColor = color.value;
         const productQuantity = quantity.value;
-
-        // vérifier si les données quantité et couleur sont valides avec la fonction if
-        if (productColor !== "" && productQuantity != 0 && productQuantity <= 100) {
-
-  
         // Créer un objet produit
         
         let product = {
