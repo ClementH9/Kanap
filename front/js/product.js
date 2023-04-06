@@ -75,7 +75,7 @@ function addToCart() {
           // Comportement si il existe des données dans le localStorage
 
           // Recherche de produits dans le local storage
-          let cartLocalStorage  = JSON.parse(localStorage.getItem("cart"));
+          let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
           let mappingProduct = cartLocalStorage.find(
             (productfind) =>
               productfind.productId === productId &&
