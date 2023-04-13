@@ -56,7 +56,7 @@ console.log(product);
       // Mise à disposition du localStorage si existant
       //Json parse pour permettre l'accès au local storage
       let cartLocalStorage = JSON.parse(
-        localStorage.getItem("cart")
+        localStorage.getItem("cart2")
       );
 
       // Comportement si il n'y a pas de localStorage (il n'a ni valeur ni type défini : donc null)
@@ -65,7 +65,7 @@ console.log(product);
         cartLocalStorage = [];
         cartLocalStorage.push(product);
         localStorage.setItem(
-          "cart",
+          "cart2",
           JSON.stringify(cartLocalStorage)
         );
         alert("Produit ajouté au panier !");
@@ -74,7 +74,7 @@ console.log(product);
         // Comportement si il existe des données dans le localStorage
 
         // Recherche de produits dans le local storage
-        let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
+        let cartLocalStorage = JSON.parse(localStorage.getItem("cart2"));
         let mappingProduct = cartLocalStorage.find(
           (productfind) =>
             productfind.productId === productId &&
@@ -93,7 +93,7 @@ console.log(product);
           // On l'enregistre dans le localStorage
 
           localStorage.setItem(
-            "cart",
+            "cart2",
             JSON.stringify(cartLocalStorage)
           );
           alert("Quantité du panier augmentée !");
@@ -103,7 +103,7 @@ console.log(product);
           // Stocke le produit dans sa globalité (aucune correspondance dans la cart)
           cartLocalStorage.push(product);
           localStorage.setItem(
-            "cart",
+            "cart2",
             JSON.stringify(product)
           );
           alert("Nouveau produit ajouté !");
