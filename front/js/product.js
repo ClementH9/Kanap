@@ -105,7 +105,7 @@ function addToCart() {
             cartLocalStorage.push(product);
             localStorage.setItem(
               "cart",
-              JSON.stringify(product)
+              JSON.stringify(cartLocalStorage)
             );
             alert("Nouveau produit ajouté !");
             console.log(cartLocalStorage);
