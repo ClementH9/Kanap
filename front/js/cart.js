@@ -2,7 +2,7 @@
 function getCart() {
     let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
     if (productsInLocalStorage == null) {
-        return = [];
+        document.querySelector('h1').textContent = 'Votre panier est vide';
     } else { 
         return productsInLocalStorage;
     }
@@ -31,7 +31,10 @@ fetch(`http://localhost:3000/api/products`)
         }
     }
 })
-/*
+
+
+
+
 
 // Affichage des produits de la page panier
 function displayCardProducts();
@@ -56,5 +59,3 @@ function updateQuantity(){
 let textRegex = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
 let addressRegex = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
 let emailRegex = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
-
-*/
