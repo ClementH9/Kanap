@@ -115,7 +115,7 @@ function addToCart() {
         //Fin des conditions pour le localStorage
       } else {
         alert(
-          "Choisissez la couleur et la quantité"
+          "Choisissez la couleur et une quantité entre 1 et 100"
         );
       }
     });

@@ -2,12 +2,12 @@
 function getCart() {
     let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
     if (productsInLocalStorage == null) {
-        document.querySelector('h1').textContent = 'Votre panier est vide';
+        return [];
     } else { 
         return productsInLocalStorage;
     }
 }
-console.log(productsInLocalStorage);
+console.log(getCart());
 
 // Afficher les produits du Local Storage sur la page Cart
 fetch(`http://localhost:3000/api/products`)
@@ -21,13 +21,38 @@ fetch(`http://localhost:3000/api/products`)
     for (let elData in data) {
         let contentCart = getCart(); /* Stocke ce qu'il y a dans le panier */
         for (let elCart in contentCart) {
-            const sectionCart = document.getElementById("cart__items");
+            let cartProductId = contentCart [elCart].productId ; /* variable cartProductId récupère l'ID du produit dans le panier */
+            let dataProductId = data[elData]._id ;
+            if (cartProductId == dataProductId) {
+                let productName = data[elData].name ;
+                const titleProduct = document.createElement("h2") ;
+                titleProduct.innerText = productName ;
+                const sectionCart = document.getElementById("cart__items") ;
+                sectionCart.appendChild(titleProduct) ;
+
+                let productColor = contentCart[elCart].productColor ;
+                const colorProduct = document.createElement("p") ;
+                colorProduct.innerText = productColor ;
+                sectionCart.appendChild(colorProduct) ;
+
+                let productQuantity = contentCart[elCart].productQuantity ;
+                const quantityProduct = document.createElement("p") ;
+                quantityProduct.innerText = productQuantity ; 
+                sectionCart.appendChild(quantityProduct) ;
+
+                let productPrice = data[elData].price ;
+                const priceProduct = document.createElement("p") ;
+                priceProduct.innerText = productPrice ;
+                sectionCart.appendChild(priceProduct) ;
+            }
+            /* const sectionCart = document.getElementById("cart__items");
             const cartArticle = document.createElement("article");
             document.querySelector("cart__items").appendChild(sectionCart);
             const cartImg = document.createElement("div");
             document.querySelector("cart__item").append(cartArticle);
             const cartImg = document.createElement("div");
-            document.querySelector("cart__item__img").append(cartImg);
+            document.querySelector("cart__item__img").append(cartImg); */
+            console.log(cartProductId)
         }
     }
 })
@@ -35,7 +60,7 @@ fetch(`http://localhost:3000/api/products`)
 
 
 
-
+/*
 // Affichage des produits de la page panier
 function displayCardProducts();
 // Pour changer la quantité donnée d'un produit
@@ -59,3 +84,4 @@ function updateQuantity(){
 let textRegex = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
 let addressRegex = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
 let emailRegex = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
+*/
