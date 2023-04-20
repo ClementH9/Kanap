@@ -46,14 +46,6 @@ fetch(`http://localhost:3000/api/products`)
                 priceProduct.innerText = productPrice ;
                 sectionCart.appendChild(priceProduct) ;
 
-                let newProductImg = document.createElement('div');
-                newProductImg.setAttribute("class", "cart__item__img");
-                cartProductId.appendChild(newProductImg);
-
-                let productImg = data[elData].imageUrl ;
-                productImg.setAttribute("src", contentCart.imageUrl);
-                productImg.setAttribute("alt", contentCart.altTxt);
-                newProductImg.appendChild(newImg);
 
             }
             /* const sectionCart = document.getElementById("cart__items");
