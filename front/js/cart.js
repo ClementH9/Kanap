@@ -24,6 +24,7 @@ fetch(`http://localhost:3000/api/products`)
             let cartProductId = contentCart [elCart].productId ; /* variable cartProductId récupère l'ID du produit dans le panier */
             let dataProductId = data[elData]._id ;
             if (cartProductId == dataProductId) {
+                
                 let productName = data[elData].name ;
                 const titleProduct = document.createElement("h2") ;
                 titleProduct.innerText = productName ;
@@ -44,6 +45,16 @@ fetch(`http://localhost:3000/api/products`)
                 const priceProduct = document.createElement("p") ;
                 priceProduct.innerText = productPrice ;
                 sectionCart.appendChild(priceProduct) ;
+
+                let newProductImg = document.createElement('div');
+                newProductImg.setAttribute("class", "cart__item__img");
+                cartProductId.appendChild(newProductImg);
+
+                let productImg = data[elData].imageUrl ;
+                productImg.setAttribute("src", contentCart.imageUrl);
+                productImg.setAttribute("alt", contentCart.altTxt);
+                newProductImg.appendChild(newImg);
+
             }
             /* const sectionCart = document.getElementById("cart__items");
             const cartArticle = document.createElement("article");
