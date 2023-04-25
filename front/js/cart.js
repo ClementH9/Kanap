@@ -43,7 +43,7 @@ fetch(`http://localhost:3000/api/products`)
 
                 let productPrice = data[elData].price ;
                 const priceProduct = document.createElement("p") ;
-                priceProduct.innerText = productPrice ;
+                priceProduct.innerText = productPrice + "€";
                 sectionCart.appendChild(priceProduct) ;
 
                 let newProductImg = document.createElement('div');
@@ -70,18 +70,15 @@ fetch(`http://localhost:3000/api/products`)
 })
 
 //Affichage du prix
-    let newProductPrice = document.createElement('div');
-    newProductPrice.setAttribute("class", "cart__item__price");
-    sectionCart.appendChild(newProductPrice);
+    let totalPrice = 0;
+    let productPrice = data[elData].price ;
+    let productQuantity = contentCart[elCart].productQuantity ;
+    totalPrice += productPrice * productQuantity;
 
-    const priceTextNode = document.createTextNode(data[elData].price);
-
-    newProductPrice.appendChild(priceTextNode);
-
-
-
-
-
+    const totalProductPrice = document.createElement("p") ;
+    totalProductPrice.innerText = "Prix total : " + totalPrice + "€";
+    sectionCart.appendChild(totalProductPrice);
+    
 
 /*
 // Affichage des produits de la page panier
