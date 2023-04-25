@@ -69,6 +69,17 @@ fetch(`http://localhost:3000/api/products`)
     }
 })
 
+//Affichage du prix
+    let newProductPrice = document.createElement('div');
+    newProductPrice.setAttribute("class", "cart__item__price");
+    sectionCart.appendChild(newProductPrice);
+
+    const priceTextNode = document.createTextNode(data[elData].price);
+
+    newProductPrice.appendChild(priceTextNode);
+
+
+
 
 
 
