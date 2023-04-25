@@ -43,7 +43,7 @@ fetch(`http://localhost:3000/api/products`)
 
                 let productPrice = data[elData].price ;
                 const priceProduct = document.createElement("p") ;
-                priceProduct.innerText = "Prix : " + productPrice + " €";
+                priceProduct.innerText = "Prix : " + (productPrice * productQuantity) + " €";
                 sectionCart.appendChild(priceProduct) ;
 
                 let newProductImg = document.createElement('div');
