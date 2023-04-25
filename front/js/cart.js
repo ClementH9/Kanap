@@ -33,17 +33,17 @@ fetch(`http://localhost:3000/api/products`)
 
                 let productColor = contentCart[elCart].productColor ;
                 const colorProduct = document.createElement("p") ;
-                colorProduct.innerText = productColor ;
+                colorProduct.innerText = "Couleur : " + productColor ;
                 sectionCart.appendChild(colorProduct) ;
 
                 let productQuantity = contentCart[elCart].productQuantity ;
                 const quantityProduct = document.createElement("p") ;
-                quantityProduct.innerText = productQuantity ; 
+                quantityProduct.innerText = "Quantité : " + productQuantity ; 
                 sectionCart.appendChild(quantityProduct) ;
 
                 let productPrice = data[elData].price ;
                 const priceProduct = document.createElement("p") ;
-                priceProduct.innerText = productPrice + "€";
+                priceProduct.innerText = "Prix : " + productPrice + " €";
                 sectionCart.appendChild(priceProduct) ;
 
                 let newProductImg = document.createElement('div');
@@ -68,16 +68,6 @@ fetch(`http://localhost:3000/api/products`)
         }
     }
 })
-
-//Affichage du prix
-    let totalPrice = 0;
-    let productPrice = data[elData].price ;
-    let productQuantity = contentCart[elCart].productQuantity ;
-    totalPrice += productPrice * productQuantity;
-
-    const totalProductPrice = document.createElement("p") ;
-    totalProductPrice.innerText = "Prix total : " + totalPrice + "€";
-    sectionCart.appendChild(totalProductPrice);
     
 
 /*
