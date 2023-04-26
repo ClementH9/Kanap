@@ -24,11 +24,22 @@ fetch(`http://localhost:3000/api/products`)
             let cartProductId = contentCart [elCart].productId ; /* variable cartProductId récupère l'ID du produit dans le panier */
             let dataProductId = data[elData]._id ;
             if (cartProductId == dataProductId) {
+
+                const sectionCart = document.getElementById("cart__items") ;
+
+                let newProductImg = document.createElement('div');
+                newProductImg.setAttribute("class", "cart__item__img");
+                sectionCart.appendChild(newProductImg);
+
+                let productImg = data[elData].imageUrl ;
+                const newProductImgTag = document.createElement('img');
+                newProductImgTag.setAttribute("src", productImg);
+                newProductImgTag.setAttribute("alt", data[elData].altTxt);
+                newProductImg.appendChild(newProductImgTag);
                 
                 let productName = data[elData].name ;
                 const titleProduct = document.createElement("h2") ;
                 titleProduct.innerText = productName ;
-                const sectionCart = document.getElementById("cart__items") ;
                 sectionCart.appendChild(titleProduct) ;
 
                 let productColor = contentCart[elCart].productColor ;
@@ -45,16 +56,7 @@ fetch(`http://localhost:3000/api/products`)
                 const priceProduct = document.createElement("p") ;
                 priceProduct.innerText = "Prix : " + (productPrice * productQuantity) + " €";
                 sectionCart.appendChild(priceProduct) ;
-
-                let newProductImg = document.createElement('div');
-                newProductImg.setAttribute("class", "cart__item__img");
-                sectionCart.appendChild(newProductImg);
-
-                let productImg = data[elData].imageUrl ;
-                const newProductImgTag = document.createElement('img');
-                newProductImgTag.setAttribute("src", productImg);
-                newProductImgTag.setAttribute("alt", data[elData].altTxt);
-                newProductImg.appendChild(newProductImgTag);
+                
 
             }
             /* const sectionCart = document.getElementById("cart__items");
@@ -68,6 +70,8 @@ fetch(`http://localhost:3000/api/products`)
         }
     }
 })
+
+
     
 
 /*
