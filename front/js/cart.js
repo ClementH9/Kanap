@@ -18,11 +18,13 @@ fetch(`http://localhost:3000/api/products`)
 })
  // Construction de la fonction avec les différentes propriétés du produit
 .then(function (data) {
+    // Récupération des données de l'API
     for (let elData in data) {
         let contentCart = getCart(); /* Stocke ce qu'il y a dans le panier */
         for (let elCart in contentCart) {
             let cartProductId = contentCart [elCart].productId ; /* variable cartProductId récupère l'ID du produit dans le panier */
             let dataProductId = data[elData]._id ;
+            // Comparaison des infos entre panier et API
             if (cartProductId == dataProductId) {
 
                 let productColor = contentCart[elCart].productColor;
@@ -99,24 +101,49 @@ fetch(`http://localhost:3000/api/products`)
 })
 
 /* Supprimer : event listener, fonction à créer pour MAJ*/
-
+.then (function () {
 document.getElementById("totalQuantity").innerText=totalProductsQuantity(); //parseInt et créer fonction qui calcule la quantité
-document.getElementById("totalPrice").innerText=totalProductsPrice(); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté
+document.getElementById("totalPrice").innerText=totalProductsPrice (); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté
+})
 
+console.log(productSettingsQuantityInput);
 function totalProductsQuantity(){
-    totalQuantity += parseInt(productSettingsQuantity);
-    console.log("Total quantité panier",totalQuantity);
-    document.getElementById("totalQuantity").innerText = totalQuantity;
+    let totalQuantity = 0;
+    let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
+    for(i = 0; i < productSettingsQuantityInput.length; i++){
+        totalQuantity += parseInt(productSettingsQuantityInput[i].value); //parseInt reconstruit la donnée, la valeur est assimilée par le parseint
+        console.log("Total quantité panier",totalQuantity);
+}
+return totalQuantity;
 }
 
 function totalProductsPrice (){
-    totalProductPricePanier = productQuantity * productPrice;
+    let totalPrice = 0;
+    let productPrice = document.querySelectorAll(".cart__item");
+    for(i = 0; i < productPrice.length; i++){
+        console.log(productPrice)
+        console.log(productPrice.dataset.id)
+        /* totalPrice += parseInt(productPrice[i].value);
+        productPrice.dataset.id; */
+    }
+
+    /* totalPrice += (productQuantity) * (productPrice);
     console.log(totalProductPricePanier);
     // Calcul du prix total du panier
     totalPrice += totalProductPricePanier;
     console.log("Total prix panier",totalPrice);
-    document.getElementById("totalPrice").innerText = totalPrice; 
+    document.getElementById("totalPrice").innerText = totalPrice; */
     }
+
+function deleteProduct (){
+
+}
+
+function changeQuentity (){
+    
+}
+
+
 
 /*
 // Affichage des produits de la page panier
@@ -127,12 +154,10 @@ function changeQuantity(
         
     deleteProduct();
 } else {
-
     updateQuantity();
 });
 // Suppression d'un produit du panier
 function deleteProduct(){
-
 };
 // Changer la quantité de produit dans le panier
 function updateQuantity(){
