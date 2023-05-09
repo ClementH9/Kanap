@@ -103,10 +103,10 @@ fetch(`http://localhost:3000/api/products`)
 /* Supprimer : event listener, fonction à créer pour MAJ*/
 .then (function () {
 document.getElementById("totalQuantity").innerText=totalProductsQuantity(); //parseInt et créer fonction qui calcule la quantité
-document.getElementById("totalPrice").innerText=totalProductsPrice (); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté
+/* document.getElementById("totalPrice").innerText=totalProductsPrice (); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté */
 })
 
-console.log(productSettingsQuantityInput);
+/* console.log(productSettingsQuantityInput); */
 function totalProductsQuantity(){
     let totalQuantity = 0;
     let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
@@ -117,23 +117,23 @@ function totalProductsQuantity(){
 return totalQuantity;
 }
 
-function totalProductsPrice (){
+/* function totalProductsPrice (){
     let totalPrice = 0;
     let productPrice = document.querySelectorAll(".cart__item");
     for(i = 0; i < productPrice.length; i++){
         console.log(productPrice)
         console.log(productPrice.dataset.id)
         /* totalPrice += parseInt(productPrice[i].value);
-        productPrice.dataset.id; */
+        productPrice.dataset.id;
     }
 
-    /* totalPrice += (productQuantity) * (productPrice);
+    totalPrice += (productQuantity) * (productPrice);
     console.log(totalProductPricePanier);
     // Calcul du prix total du panier
     totalPrice += totalProductPricePanier;
     console.log("Total prix panier",totalPrice);
-    document.getElementById("totalPrice").innerText = totalPrice; */
-    }
+    document.getElementById("totalPrice").innerText = totalPrice;
+    } */
 
 function deleteProduct (){
 
@@ -163,15 +163,9 @@ function deleteProduct(){
 function updateQuantity(){
     
 };
-// Gestion du formulaire (REGEX)
-let textRegex = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-let addressRegex = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-let emailRegex = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
 */
 
 let form = document.querySelector(".cart__order__form");
-
-console.log(form.firstName);
 
 //Ecouter la modification du prénom
 form.firstName.addEventListener("change", function(){
@@ -254,8 +248,8 @@ const validAddress = function(inputAddress) {
 }
 
 //Ecouter la modification de la ville
-form.firstName.addEventListener("change", function(){
-    validFirstName(this);
+form.city.addEventListener("change", function(){
+    validCity(this);
 })
 
 //******************** VALIDATION VILLE ************************/
@@ -309,7 +303,11 @@ const validEmail = function(inputEmail) {
 //Ecouter la validation du formulaire
 form.addEventListener("submit", function(e){
     e.preventDefault();
-    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(formEmail)){
+    console.log("form");
+    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)){
         form.submit();
+        let idCommand = strRandom();
+        console.log(idCommand);
+        window.location.href = "./confirmation.html?id=" + idCommand;
     }
 })
