@@ -168,3 +168,18 @@ let textRegex = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîô�
 let addressRegex = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
 let emailRegex = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
 */
+
+let form = document.querySelector(".cart__order__form");
+
+console.log(form.firstName);
+
+//Ecouter la modification du First Name
+form.firstName.addEventListener("change", function(){
+    validFirstName(this);
+})
+const validFirstName = function(inputFirstName) {
+    //Création RegExp pour valider First Name
+    let firstNameRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
+    let testFirstName = firstNameRegExp.test(inputFirstName.value);
+    console.log(testFirstName);
+}
