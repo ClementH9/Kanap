@@ -173,13 +173,143 @@ let form = document.querySelector(".cart__order__form");
 
 console.log(form.firstName);
 
-//Ecouter la modification du First Name
+//Ecouter la modification du prénom
 form.firstName.addEventListener("change", function(){
     validFirstName(this);
 })
+//******************** VALIDATION DU PRENOM ************************/
 const validFirstName = function(inputFirstName) {
-    //Création RegExp pour valider First Name
+    //Création RegExp pour valider le prénom
     let firstNameRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
+    //Test de l'expression régulière
     let testFirstName = firstNameRegExp.test(inputFirstName.value);
-    console.log(testFirstName);
+    //On récupère la balise p
+    let p = inputFirstName.nextElementSibling;
+
+    if (testFirstName){
+        p.innerHTML = "Prénom valide";
+        p.classList.remove("text-danger");
+        p.classList.add("text-success");
+        return true;
+    }else{
+        p.innerHTML = "Prénom invalide";
+        p.classList.remove("text-success");
+        p.classList.add("text-danger");
+        return false;
+    }
 }
+
+//Ecouter la modification du nom
+form.lastName.addEventListener("change", function(){
+    validLastName(this);
+})
+
+//******************** VALIDATION DU NOM ************************/
+const validLastName = function(inputLastName) {
+    //Création RegExp pour valider le prénom
+    let lastNameRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
+    //Test de l'expression régulière
+    let testLastName = lastNameRegExp.test(inputLastName.value);
+    //On récupère la balise p
+    let p = inputLastName.nextElementSibling;
+
+    if (testLastName){
+        p.innerHTML = "Nom valide";
+        p.classList.remove("text-danger");
+        p.classList.add("text-success");
+        return true;
+    }else{
+        p.innerHTML = "Nom invalide";
+        p.classList.remove("text-success");
+        p.classList.add("text-danger");
+        return false;
+    }
+}
+
+//Ecouter la modification de l'adresse
+form.address.addEventListener("change", function(){
+    validAddress(this);
+})
+
+//******************** VALIDATION ADRESSE ************************/
+const validAddress = function(inputAddress) {
+    //Création RegExp pour valider le prénom
+    let addressRegExp = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
+    //Test de l'expression régulière
+    let testAddress = addressRegExp.test(inputAddress.value);
+    //On récupère la balise p
+    let p = inputAddress.nextElementSibling;
+
+    if (testAddress){
+        p.innerHTML = "Adresse valide";
+        p.classList.remove("text-danger");
+        p.classList.add("text-success");
+        return true;
+    }else{
+        p.innerHTML = "Adresse invalide";
+        p.classList.remove("text-success");
+        p.classList.add("text-danger");
+        return false;
+    }
+}
+
+//Ecouter la modification de la ville
+form.firstName.addEventListener("change", function(){
+    validFirstName(this);
+})
+
+//******************** VALIDATION VILLE ************************/
+const validCity = function(inputCity) {
+    //Création RegExp pour valider le prénom
+    let cityRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
+    //Test de l'expression régulière
+    let testCity = cityRegExp.test(inputCity.value);
+    //On récupère la balise p
+    let p = inputCity.nextElementSibling;
+
+    if (testCity){
+        p.innerHTML = "Ville valide";
+        p.classList.remove("text-danger");
+        p.classList.add("text-success");
+        return true;
+    }else{
+        p.innerHTML = "Ville invalide";
+        p.classList.remove("text-success");
+        p.classList.add("text-danger");
+        return false;
+    }
+}
+
+//Ecouter la modification du mail
+form.email.addEventListener("change", function(){
+    validEmail(this);
+})
+
+const validEmail = function(inputEmail) {
+    //Création RegExp pour valider le prénom
+    let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
+    //Test de l'expression régulière
+    let testEmail = emailRegExp.test(inputEmail.value);
+    //On récupère la balise p
+    let p = inputEmail.nextElementSibling;
+
+    if (testEmail){
+        p.innerHTML = "Email valide";
+        p.classList.remove("text-danger");
+        p.classList.add("text-success");
+        return true;
+    }else{
+        p.innerHTML = "Email invalide";
+        p.classList.remove("text-success");
+        p.classList.add("text-danger");
+        return false;
+    }
+}
+
+//Ecouter la validation du formulaire
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(formEmail)){
+        form.submit();
+    }
+})
