@@ -306,7 +306,12 @@ form.addEventListener("submit", function(e){
     console.log("form");
     if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)){
         form.submit();
-        let idCommand = strRandom();
+        fetch("http://localhost:3000/api/products/order", options)
+        .then(response => response.json())
+            .then(data => {
+                document.location.href =`confirmation.html?id=${data.orderId}`;
+                localStorage.clear();
+        })
         console.log(idCommand);
         window.location.href = "./confirmation.html?id=" + idCommand;
     }
