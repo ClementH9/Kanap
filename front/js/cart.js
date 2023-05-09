@@ -307,6 +307,11 @@ form.addEventListener("submit", function(e){
     if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)){
         form.submit();
         const idCommand = JSON.stringify(e);
+        fetch('http://localhost:3000/api/products', {
+            method : "POST",
+            headers : idCommand,
+            body : strRandom()
+         });
         console.log(idCommand);
         window.location.href = "./confirmation.html?id=" + idCommand;
     }
