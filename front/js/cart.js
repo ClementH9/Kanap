@@ -106,6 +106,14 @@ document.getElementById("totalQuantity").innerText=totalProductsQuantity(); //pa
 /* document.getElementById("totalPrice").innerText=totalProductsPrice (); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté */
 })
 
+// ajouter une gestion d'événement => 
+.then (function(){
+    const recupQuantity = document.querySelectorAll(".itemQuantity");
+    recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', changeQuantity));
+})
+
+
+
 /* console.log(productSettingsQuantityInput); */
 function totalProductsQuantity(){
     let totalQuantity = 0;
@@ -117,13 +125,13 @@ function totalProductsQuantity(){
 return totalQuantity;
 }
 
-/* function totalProductsPrice (){
+function totalProductsPrice (){
     let totalPrice = 0;
     let productPrice = document.querySelectorAll(".cart__item");
     for(i = 0; i < productPrice.length; i++){
         console.log(productPrice)
         console.log(productPrice.dataset.id)
-        /* totalPrice += parseInt(productPrice[i].value);
+        totalPrice += parseInt(productPrice[i].value);
         productPrice.dataset.id;
     }
 
@@ -132,15 +140,24 @@ return totalQuantity;
     // Calcul du prix total du panier
     totalPrice += totalProductPricePanier;
     console.log("Total prix panier",totalPrice);
-    document.getElementById("totalPrice").innerText = totalPrice;
-    } */
+    document.getElementById("totalPrice").innerHTML = totalPrice;
+    }
 
 function deleteProduct (){
 
 }
 
-function changeQuentity (){
-    
+function changeQuantity (){
+    console.log("calcul de la nouvelle quantité");
+    // faire le calcul du total de la quantité
+    let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
+    for(i = 0; i < productSettingsQuantityInput.length; i++){
+        totalQuantity += parseInt(productSettingsQuantityInput[i].value); //parseInt reconstruit la donnée, la valeur est assimilée par le parseint
+        //console.log("Total quantité panier",totalQuantity);
+    }
+    // Mise à jour du DOM
+    const recupTotalQuantity = document.getElementById("totalQuantity");
+    recupTotalQuantity.innerHTML = totalQuantity;
 }
 
 
@@ -306,13 +323,13 @@ form.addEventListener("submit", function(e){
     console.log("form");
     if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)){
         form.submit();
-        const idCommand = JSON.stringify(e);
+        const idCommand = 1;
         fetch('http://localhost:3000/api/products', {
             method : "POST",
             headers : idCommand,
             body : strRandom()
          });
         console.log(idCommand);
-        window.location.href = "./confirmation.html?id=" + idCommand;
+        window.location.href = "./confirmation.html?id=1" ;
     }
 })
