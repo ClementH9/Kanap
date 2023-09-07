@@ -65,9 +65,13 @@ fetch(`http://localhost:3000/api/products`)
 
                 let productPrice = data[elData].price ;
                 const priceProduct = document.createElement("p") ;
-                priceProduct.innerText = "Prix unitaire : " + productPrice + " €";
-                productDescription.appendChild(priceProduct) ;
+                const span = document.createElement("span");
+                span.setAttribute("class", "prix_unitaire");
+                span.innerText = productPrice + "€" ;
+                priceProduct.innerText = "Prix unitaire : ";
+                priceProduct.appendChild(span);
 
+                productDescription.appendChild(priceProduct) ;
                 let productSettings = document.createElement('div');
                 productSettings.setAttribute("class", "cart__item__content__settings");
                 productContent.appendChild(productSettings);
@@ -102,17 +106,15 @@ fetch(`http://localhost:3000/api/products`)
 
 /* Supprimer : event listener, fonction à créer pour MAJ*/
 .then (function () {
-document.getElementById("totalQuantity").innerText=totalProductsQuantity(); //parseInt et créer fonction qui calcule la quantité
-/* document.getElementById("totalPrice").innerText=totalProductsPrice (); //parseInt et créer fonction qui calcule le prix - eventListener pour vérifier click ou événement qui change l'input MAJ le prix et Qté */
+totalProductsQuantity();
+totalProductsPrice();
 })
 
 // ajouter une gestion d'événement => 
 .then (function(){
     const recupQuantity = document.querySelectorAll(".itemQuantity");
-    recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', changeQuantity));
+    recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', totalProductsQuantity));
 })
-
-
 
 /* console.log(productSettingsQuantityInput); */
 function totalProductsQuantity(){
@@ -122,44 +124,32 @@ function totalProductsQuantity(){
         totalQuantity += parseInt(productSettingsQuantityInput[i].value); //parseInt reconstruit la donnée, la valeur est assimilée par le parseint
         console.log("Total quantité panier",totalQuantity);
 }
-return totalQuantity;
+document.getElementById("totalQuantity").innerText=totalQuantity; //parseInt et créer fonction qui calcule la quantité
 }
 
 function totalProductsPrice (){
+    console.log("calcul total price")
     let totalPrice = 0;
     let productPrice = document.querySelectorAll(".cart__item");
     for(i = 0; i < productPrice.length; i++){
-        console.log(productPrice)
-        console.log(productPrice.dataset.id)
-        totalPrice += parseInt(productPrice[i].value);
-        productPrice.dataset.id;
+        console.log("affichage infos produit", productPrice)
+        console.log("id du produit", productPrice[i].dataset.id)
+        totalPrice += parseInt(document.querySelector('.prix_unitaire'));
+        console.log("prix total", totalPrice)
     }
-
+    /* totalQuantity=document.getElementById("totalQuantity");
+    console.log(totalQuantity);
     totalPrice += (productQuantity) * (productPrice);
     console.log(totalProductPricePanier);
     // Calcul du prix total du panier
     totalPrice += totalProductPricePanier;
     console.log("Total prix panier",totalPrice);
-    document.getElementById("totalPrice").innerHTML = totalPrice;
+    document.getElementById("totalPrice").innerText=totalPrice; */
     }
 
 function deleteProduct (){
 
 }
-
-function changeQuantity (){
-    console.log("calcul de la nouvelle quantité");
-    // faire le calcul du total de la quantité
-    let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
-    for(i = 0; i < productSettingsQuantityInput.length; i++){
-        totalQuantity += parseInt(productSettingsQuantityInput[i].value); //parseInt reconstruit la donnée, la valeur est assimilée par le parseint
-        //console.log("Total quantité panier",totalQuantity);
-    }
-    // Mise à jour du DOM
-    const recupTotalQuantity = document.getElementById("totalQuantity");
-    recupTotalQuantity.innerHTML = totalQuantity;
-}
-
 
 
 /*
