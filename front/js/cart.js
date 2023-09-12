@@ -136,7 +136,8 @@ fetch(`http://localhost:3000/api/products`)
         }
         document.getElementById("totalPrice").innerText=totalPrice;
         let quantityProduct = 0;
-        
+        let productQuantity = 0;
+
     totalProductsPrice();
 
     /* totalQuantity=document.getElementById("totalQuantity");
