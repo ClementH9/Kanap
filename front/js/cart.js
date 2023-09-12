@@ -125,19 +125,16 @@ fetch(`http://localhost:3000/api/products`)
     function totalProductsPrice (){
         console.log("calcul total price")
         let totalPrice = 0;
-        let productPrice = document.querySelectorAll(".cart__item");
+        const productPrice = document.querySelectorAll(".cart__item");
         let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
-        let recupProduitsPanier = 0;
+        const recupProduitsPanier = document.querySelectorAll(".cart__item");
         for(i = 0; i < productPrice.length; i++){
             console.log("affichage infos produit", productPrice)
-            totalPrice += parseInt(recupPrixUnitaire[i].textContent)*(recupProduitsPanier[i].value);
+            totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupProduitsPanier[i].value);
             console.log("prix total", totalPrice)
             console.log(recupPrixUnitaire[i].textContent)
         }
         document.getElementById("totalPrice").innerText=totalPrice;
-        let quantityProduct = 0;
-
-    totalProductsPrice();
 
     /* totalQuantity=document.getElementById("totalQuantity");
     console.log(totalQuantity);
