@@ -103,13 +103,25 @@ fetch(`http://localhost:3000/api/products`)
 /* Supprimer : event listener, fonction à créer pour MAJ*/
 .then (function () {
     totalProductsQuantity();
+    totalProductsPrice();
     })
     
     // ajouter une gestion d'événement => 
     .then (function(){
         const recupQuantity = document.querySelectorAll(".itemQuantity");
-        recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', totalProductsQuantity));
+        recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', function() {
+            totalProductsQuantity();
+            totalProductsPrice();
+        }))
     })
+    .then (function() {
+        const deleteOneProduct = document.querySelectorAll(".deleteItem");
+        deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct))
+    })
+   /* .then (function(){
+        const recupPrice = document.querySelectorAll(".itemQuantity");
+        recupPrice.forEach((recupPrice) => recupPrice.addEventListener('change', totalProductsPrice));
+    }) */
     
     /* console.log(productSettingsQuantityInput); */
     function totalProductsQuantity(){
@@ -127,14 +139,15 @@ fetch(`http://localhost:3000/api/products`)
         let totalPrice = 0;
         const productPrice = document.querySelectorAll(".cart__item");
         let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
-        const recupProduitsPanier = document.querySelectorAll(".cart__item");
+        const recupQuantitePanier = document.querySelectorAll(".itemQuantity");
         for(i = 0; i < productPrice.length; i++){
             console.log("affichage infos produit", productPrice)
-            totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupProduitsPanier[i].value);
+            totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupQuantitePanier[i].value);
             console.log("prix total", totalPrice)
             console.log(recupPrixUnitaire[i].textContent)
         }
         document.getElementById("totalPrice").innerText=totalPrice;
+
 
     /* totalQuantity=document.getElementById("totalQuantity");
     console.log(totalQuantity);
@@ -147,8 +160,10 @@ fetch(`http://localhost:3000/api/products`)
     }
 
 function deleteProduct (){
-
+    alert("Supprimer produit")
 }
+
+
 
 
 /*
