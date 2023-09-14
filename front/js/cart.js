@@ -114,10 +114,11 @@ fetch(`http://localhost:3000/api/products`)
             totalProductsPrice();
         }))
     })
-    .then (function() {
+    .then(function () {
         const deleteOneProduct = document.querySelectorAll(".deleteItem");
-        deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct))
-    })
+        deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct));
+    });
+
    /* .then (function(){
         const recupPrice = document.querySelectorAll(".itemQuantity");
         recupPrice.forEach((recupPrice) => recupPrice.addEventListener('change', totalProductsPrice));
@@ -159,9 +160,37 @@ fetch(`http://localhost:3000/api/products`)
     document.getElementById("totalPrice").innerText=totalPrice; */
     }
 
-function deleteProduct (){
-    alert("Supprimer produit")
-}
+    function deleteProduct(event) {
+        const productArticle = event.target.closest('.cart__item'); // Trouvez l'article parent du bouton supprimer cliqué
+        if (productArticle) {
+            const productId = productArticle.getAttribute("data-id"); // Récupérez l'ID du produit à supprimer
+            const productColor = productArticle.getAttribute("data-color"); // Récupérez la couleur du produit à supprimer
+    
+            // Maintenant, vous pouvez supprimer le produit du panier en fonction de son ID et de sa couleur
+            removeFromCart(productId, productColor);
+    
+            // Supprimez l'élément du DOM pour refléter la mise à jour du panier
+            productArticle.remove();
+    
+            // Mettez à jour les totaux
+            totalProductsQuantity();
+            totalProductsPrice();
+        }
+        alert("Produit supprimé avec succès");
+    }
+
+    function removeFromCart(productId, productColor) {
+        let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+        if (productsInLocalStorage) {
+            // Filtrez le panier pour supprimer le produit spécifique en fonction de l'ID et de la couleur
+            productsInLocalStorage = productsInLocalStorage.filter((product) => {
+                return product.productId !== productId || product.productColor !== productColor;
+            });
+            
+            // Mettez à jour le panier dans le Local Storage
+            localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+        }
+    }
 
 
 
