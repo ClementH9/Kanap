@@ -366,3 +366,23 @@ form.addEventListener("submit", function(e){
         window.location.href = "./confirmation.html?id=1" ;
     }
 })
+
+function generateRandomOrderNumber() {
+    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
+}
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
+        const orderNumber = generateRandomOrderNumber();
+        
+        // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
+
+        // Pour l'exemple, nous allons l'afficher dans la console.
+        console.log("Numéro de commande : " + orderNumber);
+
+        // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
+        window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
+    }
+});
