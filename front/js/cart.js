@@ -11,12 +11,11 @@ console.log(getCart());
 
 // Afficher les produits du Local Storage sur la page Cart
 fetch(`http://localhost:3000/api/products`)
-
-// Construction du JSON pour obtenir le produit concerné
+// Attendre la réponse du serveur
 .then(function (res) {
     return res.json();
 })
- // Construction de la fonction avec les différentes propriétés du produit
+// Traitement des données reçues du serveur
 .then(function (data) {
     // Récupération des données de l'API
     for (let elData in data) {
@@ -99,135 +98,100 @@ fetch(`http://localhost:3000/api/products`)
         }
     }
 })
-
-/* Supprimer : event listener, fonction à créer pour MAJ*/
+// Mettre à jour la quantité totale et le prix total après chaque modification du panier
 .then (function () {
     totalProductsQuantity();
     totalProductsPrice();
-    })
-    
-    // ajouter une gestion d'événement => 
-    .then (function(){
-        const recupQuantity = document.querySelectorAll(".itemQuantity");
-        recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', function() {
-            totalProductsQuantity();
-            totalProductsPrice();
-        }))
-    })
-    .then(function () {
-        const deleteOneProduct = document.querySelectorAll(".deleteItem");
-        deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct));
-    });
-
-   /* .then (function(){
-        const recupPrice = document.querySelectorAll(".itemQuantity");
-        recupPrice.forEach((recupPrice) => recupPrice.addEventListener('change', totalProductsPrice));
-    }) */
-    
-    /* console.log(productSettingsQuantityInput); */
-    function totalProductsQuantity(){
-        let totalQuantity = 0;
-        let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
-        for(i = 0; i < productSettingsQuantityInput.length; i++){
-            totalQuantity += parseInt(productSettingsQuantityInput[i].value); //parseInt reconstruit la donnée, la valeur est assimilée par le parseint
-            console.log("Total quantité panier",totalQuantity);
-    }
-    document.getElementById("totalQuantity").innerText=totalQuantity; //parseInt et créer fonction qui calcule la quantité
-    }
-    
-    function totalProductsPrice (){
-        console.log("calcul total price")
-        let totalPrice = 0;
-        const productPrice = document.querySelectorAll(".cart__item");
-        let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
-        const recupQuantitePanier = document.querySelectorAll(".itemQuantity");
-        for(i = 0; i < productPrice.length; i++){
-            console.log("affichage infos produit", productPrice)
-            totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupQuantitePanier[i].value);
-            console.log("prix total", totalPrice)
-            console.log(recupPrixUnitaire[i].textContent)
-        }
-        document.getElementById("totalPrice").innerText=totalPrice;
-
-
-    /* totalQuantity=document.getElementById("totalQuantity");
-    console.log(totalQuantity);
-    totalPrice += (productQuantity) * (productPrice);
-    console.log(totalProductPricePanier);
-    // Calcul du prix total du panier
-    totalPrice += totalProductPricePanier;
-    console.log("Total prix panier",totalPrice);
-    document.getElementById("totalPrice").innerText=totalPrice; */
-    }
-
-    function deleteProduct(event) {
-        const productArticle = event.target.closest('.cart__item'); // Trouvez l'article parent du bouton supprimer cliqué
-        if (productArticle) {
-            const productId = productArticle.getAttribute("data-id"); // Récupérez l'ID du produit à supprimer
-            const productColor = productArticle.getAttribute("data-color"); // Récupérez la couleur du produit à supprimer
-    
-            // Maintenant, vous pouvez supprimer le produit du panier en fonction de son ID et de sa couleur
-            removeFromCart(productId, productColor);
-    
-            // Supprimez l'élément du DOM pour refléter la mise à jour du panier
-            productArticle.remove();
-    
-            // Mettez à jour les totaux
-            totalProductsQuantity();
-            totalProductsPrice();
-        }
-        alert("Produit supprimé avec succès");
-    }
-
-    function removeFromCart(productId, productColor) {
-        let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
-        if (productsInLocalStorage) {
-            // Filtrez le panier pour supprimer le produit spécifique en fonction de l'ID et de la couleur
-            productsInLocalStorage = productsInLocalStorage.filter((product) => {
-                return product.productId !== productId || product.productColor !== productColor;
-            });
-            
-            // Mettez à jour le panier dans le Local Storage
-            localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-        }
-    }
-
-
-
-
-/*
-// Affichage des produits de la page panier
-function displayCardProducts();
-// Pour changer la quantité donnée d'un produit
-function changeQuantity(    
-    if (quantity = 0) {
-        
-    deleteProduct();
-} else {
-    updateQuantity();
+})
+// Ajouter des gestionnaires d'événements pour les modifications de quantité et les suppressions
+.then (function(){
+    const recupQuantity = document.querySelectorAll(".itemQuantity");
+    recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', function() {
+        totalProductsQuantity();
+        totalProductsPrice();
+    }))
+})
+.then(function () {
+    const deleteOneProduct = document.querySelectorAll(".deleteItem");
+    deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct));
 });
-// Suppression d'un produit du panier
-function deleteProduct(){
-};
-// Changer la quantité de produit dans le panier
-function updateQuantity(){
-    
-};
-*/
 
+// Fonction pour calculer la quantité totale des produits dans le panier
+function totalProductsQuantity(){
+    let totalQuantity = 0;
+    let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
+    for(i = 0; i < productSettingsQuantityInput.length; i++){
+        totalQuantity += parseInt(productSettingsQuantityInput[i].value);
+        console.log("Total quantité panier",totalQuantity);
+    }
+    document.getElementById("totalQuantity").innerText=totalQuantity;
+}
+
+// Fonction pour calculer le prix total des produits dans le panier
+function totalProductsPrice (){
+    console.log("calcul total price")
+    let totalPrice = 0;
+    const productPrice = document.querySelectorAll(".cart__item");
+    let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
+    const recupQuantitePanier = document.querySelectorAll(".itemQuantity");
+    for(i = 0; i < productPrice.length; i++){
+        console.log("affichage infos produit", productPrice)
+        totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupQuantitePanier[i].value);
+        console.log("prix total", totalPrice)
+        console.log(recupPrixUnitaire[i].textContent)
+    }
+    document.getElementById("totalPrice").innerText=totalPrice;
+}
+
+// Fonction pour supprimer un produit du panier
+function deleteProduct(event) {
+    const productArticle = event.target.closest('.cart__item'); // Trouvez l'article parent du bouton supprimer cliqué
+    if (productArticle) {
+        const productId = productArticle.getAttribute("data-id"); // Récupérez l'ID du produit à supprimer
+        const productColor = productArticle.getAttribute("data-color"); // Récupérez la couleur du produit à supprimer
+
+        // Maintenant, vous pouvez supprimer le produit du panier en fonction de son ID et de sa couleur
+        removeFromCart(productId, productColor);
+
+        // Supprimez l'élément du DOM pour refléter la mise à jour du panier
+        productArticle.remove();
+
+        // Mettez à jour les totaux
+        totalProductsQuantity();
+        totalProductsPrice();
+    }
+    alert("Produit supprimé avec succès");
+}
+
+// Fonction pour supprimer un produit du panier dans le Local Storage
+function removeFromCart(productId, productColor) {
+    let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+    if (productsInLocalStorage) {
+        // Filtrez le panier pour supprimer le produit spécifique en fonction de l'ID et de la couleur
+        productsInLocalStorage = productsInLocalStorage.filter((product) => {
+            return product.productId !== productId || product.productColor !== productColor;
+        });
+        
+        // Mettez à jour le panier dans le Local Storage
+        localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+    }
+}
+
+// Validation du formulaire de commande
 let form = document.querySelector(".cart__order__form");
 
-//Ecouter la modification du prénom
+// Écouter la modification du prénom
 form.firstName.addEventListener("change", function(){
     validFirstName(this);
 })
-//******************** VALIDATION DU PRENOM ************************/
+
+// Fonction pour valider le prénom
 const validFirstName = function(inputFirstName) {
-    //Création RegExp pour valider le prénom
+    // Création RegExp pour valider le prénom
     let firstNameRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-    //Test de l'expression régulière
+    // Test de l'expression régulière
     let testFirstName = firstNameRegExp.test(inputFirstName.value);
-    //On récupère la balise p
+    // On récupère la balise p
     let p = inputFirstName.nextElementSibling;
 
     if (testFirstName){
@@ -235,7 +199,7 @@ const validFirstName = function(inputFirstName) {
         p.classList.remove("text-danger");
         p.classList.add("text-success");
         return true;
-    }else{
+    } else {
         p.innerHTML = "Prénom invalide";
         p.classList.remove("text-success");
         p.classList.add("text-danger");
@@ -243,18 +207,18 @@ const validFirstName = function(inputFirstName) {
     }
 }
 
-//Ecouter la modification du nom
+// Écouter la modification du nom
 form.lastName.addEventListener("change", function(){
     validLastName(this);
 })
 
-//******************** VALIDATION DU NOM ************************/
+// Fonction pour valider le nom
 const validLastName = function(inputLastName) {
-    //Création RegExp pour valider le prénom
+    // Création RegExp pour valider le nom
     let lastNameRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-    //Test de l'expression régulière
+    // Test de l'expression régulière
     let testLastName = lastNameRegExp.test(inputLastName.value);
-    //On récupère la balise p
+    // On récupère la balise p
     let p = inputLastName.nextElementSibling;
 
     if (testLastName){
@@ -262,7 +226,7 @@ const validLastName = function(inputLastName) {
         p.classList.remove("text-danger");
         p.classList.add("text-success");
         return true;
-    }else{
+    } else {
         p.innerHTML = "Nom invalide";
         p.classList.remove("text-success");
         p.classList.add("text-danger");
@@ -270,18 +234,18 @@ const validLastName = function(inputLastName) {
     }
 }
 
-//Ecouter la modification de l'adresse
+// Écouter la modification de l'adresse
 form.address.addEventListener("change", function(){
     validAddress(this);
 })
 
-//******************** VALIDATION ADRESSE ************************/
+// Fonction pour valider l'adresse
 const validAddress = function(inputAddress) {
-    //Création RegExp pour valider le prénom
+    // Création RegExp pour valider l'adresse
     let addressRegExp = new RegExp("^[^.?!:;,/\\/_-]([, .:;'-]?[0-9a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-    //Test de l'expression régulière
+    // Test de l'expression régulière
     let testAddress = addressRegExp.test(inputAddress.value);
-    //On récupère la balise p
+    // On récupère la balise p
     let p = inputAddress.nextElementSibling;
 
     if (testAddress){
@@ -289,7 +253,7 @@ const validAddress = function(inputAddress) {
         p.classList.remove("text-danger");
         p.classList.add("text-success");
         return true;
-    }else{
+    } else {
         p.innerHTML = "Adresse invalide";
         p.classList.remove("text-success");
         p.classList.add("text-danger");
@@ -297,18 +261,18 @@ const validAddress = function(inputAddress) {
     }
 }
 
-//Ecouter la modification de la ville
+// Écouter la modification de la ville
 form.city.addEventListener("change", function(){
     validCity(this);
 })
 
-//******************** VALIDATION VILLE ************************/
+// Fonction pour valider la ville
 const validCity = function(inputCity) {
-    //Création RegExp pour valider le prénom
+    // Création RegExp pour valider la ville
     let cityRegExp = new RegExp("^[^.?!:;,/\\/_-]([. '-]?[a-zA-Zàâäéèêëïîôöùûüç])+[^.?!:;,/\\/_-]$");
-    //Test de l'expression régulière
+    // Test de l'expression régulière
     let testCity = cityRegExp.test(inputCity.value);
-    //On récupère la balise p
+    // On récupère la balise p
     let p = inputCity.nextElementSibling;
 
     if (testCity){
@@ -316,7 +280,7 @@ const validCity = function(inputCity) {
         p.classList.remove("text-danger");
         p.classList.add("text-success");
         return true;
-    }else{
+    } else {
         p.innerHTML = "Ville invalide";
         p.classList.remove("text-success");
         p.classList.add("text-danger");
@@ -324,17 +288,18 @@ const validCity = function(inputCity) {
     }
 }
 
-//Ecouter la modification du mail
+// Écouter la modification de l'email
 form.email.addEventListener("change", function(){
     validEmail(this);
 })
 
+// Fonction pour valider l'email
 const validEmail = function(inputEmail) {
-    //Création RegExp pour valider le prénom
+    // Création RegExp pour valider l'email
     let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
-    //Test de l'expression régulière
+    // Test de l'expression régulière
     let testEmail = emailRegExp.test(inputEmail.value);
-    //On récupère la balise p
+    // On récupère la balise p
     let p = inputEmail.nextElementSibling;
 
     if (testEmail){
@@ -342,7 +307,7 @@ const validEmail = function(inputEmail) {
         p.classList.remove("text-danger");
         p.classList.add("text-success");
         return true;
-    }else{
+    } else {
         p.innerHTML = "Email invalide";
         p.classList.remove("text-success");
         p.classList.add("text-danger");
@@ -350,7 +315,7 @@ const validEmail = function(inputEmail) {
     }
 }
 
-//Ecouter la validation du formulaire
+// Écouter la soumission du formulaire
 form.addEventListener("submit", function(e){
     e.preventDefault();
     console.log("form");
@@ -367,10 +332,12 @@ form.addEventListener("submit", function(e){
     }
 })
 
+// Fonction pour générer un numéro de commande aléatoire
 function generateRandomOrderNumber() {
     return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
 }
 
+// Écouter la soumission du formulaire
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
