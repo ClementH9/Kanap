@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const url = window.location.href;
 
     // Utiliser une expression régulière pour rechercher le paramètre "orderId"
-    const match = url.match(/orderId=([^&]*)/);
+    const match = url.match(/orderNumber=([^&]*)/);
 
     // Vérifier si le paramètre "orderId" a été trouvé
     if (match) {

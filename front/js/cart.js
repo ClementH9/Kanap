@@ -340,7 +340,7 @@ form.addEventListener("submit", function (e) {
 
 // Fonction pour générer un numéro de commande aléatoire
 function generateRandomOrderNumber() {
-    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
+    return Math.floor(Math.random() * 100000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
 }
 
 // Écouter la soumission du formulaire
@@ -358,4 +358,6 @@ form.addEventListener("submit", function (e) {
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
         window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
     }
+
+    localStorage.clear();
 });
