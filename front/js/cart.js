@@ -8,21 +8,7 @@ function getCart() {
     }
 }
 
-// Fonction pour mettre à jour la quantité d'un produit dans le panier du localStorage
-function updateCartQuantity(productId, newQuantity) {
-    let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
-    if (productsInLocalStorage) {
-        for (let i = 0; i < productsInLocalStorage.length; i++) {
-            if (productsInLocalStorage[i].productId === productId) {
-                productsInLocalStorage[i].productQuantity = newQuantity;
-                break; // Sortez de la boucle dès que vous avez trouvé le produit
-            }
-        }
-        localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
-    }
-}
-
-// Afficher les produits du Local Storage sur la page Cart
+// Affichage des produits du Local Storage sur la page Cart
 fetch(`http://localhost:3000/api/products`)
     // Attendre la réponse du serveur
     .then(function (res) {
@@ -38,6 +24,7 @@ fetch(`http://localhost:3000/api/products`)
                 let dataProductId = data[elData]._id;
                 // Comparaison des infos entre panier et API
                 if (cartProductId == dataProductId) {
+
                     let productColor = contentCart[elCart].productColor;
 
                     const sectionCart = document.getElementById("cart__items"); // pointe vers l'id cart__items
@@ -79,14 +66,12 @@ fetch(`http://localhost:3000/api/products`)
                     priceProduct.innerHTML = 'Prix unitaire : <span class="prix_unitaire">' + productPrice + "</span> €";
 
                     productDescription.appendChild(priceProduct);
-
                     let productSettings = document.createElement('div');
                     productSettings.setAttribute("class", "cart__item__content__settings");
                     productContent.appendChild(productSettings);
                     let productSettingsQuantity = document.createElement('div');
                     productSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity");
                     productSettings.appendChild(productSettingsQuantity);
-
                     let productQuantity = contentCart[elCart].productQuantity;
                     const quantityProduct = document.createElement("p");
                     quantityProduct.innerText = "Qté : ";
@@ -122,13 +107,7 @@ fetch(`http://localhost:3000/api/products`)
         recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', function () {
             totalProductsQuantity();
             totalProductsPrice();
-
-            // Mettre à jour le localStorage avec la nouvelle quantité
-            const productId = this.closest('.cart__item').getAttribute("data-id");
-            const newQuantity = parseInt(this.value);
-
-            updateCartQuantity(productId, newQuantity);
-        }));
+        }))
     })
     .then(function () {
         const deleteOneProduct = document.querySelectorAll(".deleteItem");
@@ -175,6 +154,20 @@ function deleteProduct(event) {
         totalProductsPrice();
     }
     alert("Produit supprimé avec succès");
+}
+
+// Fonction pour supprimer un produit du panier dans le Local Storage
+function removeFromCart(productId, productColor) {
+    let productsInLocalStorage = JSON.parse(localStorage.getItem("cart"));
+    if (productsInLocalStorage) {
+        // Filtrez le panier pour supprimer le produit spécifique en fonction de l'ID et de la couleur
+        productsInLocalStorage = productsInLocalStorage.filter((product) => {
+            return product.productId !== productId || product.productColor !== productColor;
+        });
+
+        // Mettez à jour le panier dans le Local Storage
+        localStorage.setItem("cart", JSON.stringify(productsInLocalStorage));
+    }
 }
 
 // Validation du formulaire de commande
@@ -296,7 +289,7 @@ form.email.addEventListener("change", function () {
 // Fonction pour valider l'email
 const validEmail = function (inputEmail) {
     // Création RegExp pour valider l'email
-    let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9\-\._]+[.][a-z][a-z]+$");
+    let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-zA-Z0-9\\-\\._]+[.][a-z][a-z]+$");
     // Test de l'expression régulière
     let testEmail = emailRegExp.test(inputEmail.value);
     // On récupère la balise p
@@ -332,7 +325,7 @@ form.addEventListener("submit", function (e) {
 
 // Fonction pour générer un numéro de commande aléatoire
 function generateRandomOrderNumber() {
-    return Math.floor(Math.random() * 100000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
+    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
 }
 
 // Écouter la soumission du formulaire
@@ -346,7 +339,6 @@ form.addEventListener("submit", function (e) {
 
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
         window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
+        localStorage.clear();
     }
-
-    localStorage.clear();
 });
