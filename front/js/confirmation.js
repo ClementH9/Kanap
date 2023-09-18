@@ -1,5 +1,3 @@
-console.log("Le script confirmation.js est chargé.");
-
 document.addEventListener("DOMContentLoaded", function () {
     // Obtenir l'URL complète
     const url = window.location.href;
@@ -18,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Insérer le numéro de commande dans le contenu de l'élément HTML
         idCommandElement.innerText = numCommande;
     } else {
-        // Si le paramètre "orderId" n'a pas été trouvé, afficher un message d'erreur
-        console.log("Paramètre 'orderId' non trouvé dans l'URL.");
+        alert("Votre commande n'a pas abouti, veuillez nous en excuser")
     }
 });

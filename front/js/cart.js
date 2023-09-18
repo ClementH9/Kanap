@@ -7,7 +7,6 @@ function getCart() {
         return productsInLocalStorage;
     }
 }
-console.log(getCart());
 
 // Fonction pour mettre à jour la quantité d'un produit dans le panier du localStorage
 function updateCartQuantity(productId, newQuantity) {
@@ -142,23 +141,18 @@ function totalProductsQuantity() {
     let productSettingsQuantityInput = document.querySelectorAll(".itemQuantity");
     for (i = 0; i < productSettingsQuantityInput.length; i++) {
         totalQuantity += parseInt(productSettingsQuantityInput[i].value);
-        console.log("Total quantité panier", totalQuantity);
     }
     document.getElementById("totalQuantity").innerText = totalQuantity;
 }
 
 // Fonction pour calculer le prix total des produits dans le panier
 function totalProductsPrice() {
-    console.log("calcul total price")
     let totalPrice = 0;
     const productPrice = document.querySelectorAll(".cart__item");
     let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
     const recupQuantitePanier = document.querySelectorAll(".itemQuantity");
     for (i = 0; i < productPrice.length; i++) {
-        console.log("affichage infos produit", productPrice)
         totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupQuantitePanier[i].value);
-        console.log("prix total", totalPrice)
-        console.log(recupPrixUnitaire[i].textContent)
     }
     document.getElementById("totalPrice").innerText = totalPrice;
 }
@@ -302,7 +296,7 @@ form.email.addEventListener("change", function () {
 // Fonction pour valider l'email
 const validEmail = function (inputEmail) {
     // Création RegExp pour valider l'email
-    let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9]+[.][a-z][a-z]+$");
+    let emailRegExp = new RegExp("^[^. ?!:;,/\\/_-]([._-]?[a-z0-9])+[^.?!: ;,/\\/_-][@][a-z0-9\-\._]+[.][a-z][a-z]+$");
     // Test de l'expression régulière
     let testEmail = emailRegExp.test(inputEmail.value);
     // On récupère la balise p
@@ -324,7 +318,6 @@ const validEmail = function (inputEmail) {
 // Écouter la soumission du formulaire
 form.addEventListener("submit", function (e) {
     e.preventDefault();
-    console.log("form");
     if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
         form.submit();
         const idCommand = 1;
@@ -333,7 +326,6 @@ form.addEventListener("submit", function (e) {
             headers: idCommand,
             body: strRandom()
         });
-        console.log(idCommand);
         window.location.href = "./confirmation.html?id=1";
     }
 })
@@ -351,9 +343,6 @@ form.addEventListener("submit", function (e) {
         const orderNumber = generateRandomOrderNumber();
 
         // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
-
-        // Pour l'exemple, nous allons l'afficher dans la console.
-        console.log("Numéro de commande : " + orderNumber);
 
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
         window.location.href = "./confirmation.html?orderNumber=" + orderNumber;

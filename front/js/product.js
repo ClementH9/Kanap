@@ -8,7 +8,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
     return res.json(); // Convertit la réponse en JSON
   })
   .then(function (data) {
-    console.log(data); // Affiche les données du produit dans la console
 
     // Met à jour le DOM avec les propriétés du produit
     const addTitle = document.getElementById("title");
@@ -60,7 +59,6 @@ function addToCart() {
         cartLocalStorage.push(product);
         localStorage.setItem("cart", JSON.stringify(cartLocalStorage));
         alert("Produit ajouté au panier !");
-        console.log(cartLocalStorage);
       } else {
         // Comportement si le localStorage contient déjà des données
 
@@ -81,13 +79,11 @@ function addToCart() {
           // Enregistre les modifications dans le localStorage
           localStorage.setItem("cart", JSON.stringify(cartLocalStorage));
           alert("Quantité du panier augmentée !");
-          console.log(cartLocalStorage);
         } else {
           // Si le produit n'existe pas, l'ajoute au localStorage
           cartLocalStorage.push(product);
           localStorage.setItem("cart", JSON.stringify(cartLocalStorage));
           alert("Nouveau produit ajouté !");
-          console.log(cartLocalStorage);
         }
       }
     } else {
