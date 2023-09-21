@@ -311,34 +311,25 @@ const validEmail = function (inputEmail) {
 // Écouter la soumission du formulaire
 form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
-        form.submit();
-        const idCommand = 1;
-        fetch('http://localhost:3000/api/products', {
-            method: "POST",
-            headers: idCommand,
-            body: strRandom()
-        });
-        window.location.href = "./confirmation.html?id=1";
-    }
-})
-
-// Fonction pour générer un numéro de commande aléatoire
-function generateRandomOrderNumber() {
-    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
-}
-
-// Écouter la soumission du formulaire
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
+    
+    // Vérifier si le panier est vide
+    const cart = getCart(); // Récupérer le panier depuis le Local Storage
+    if (cart.length === 0) {
+        alert("Le panier est vide. Ajoutez des articles avant de passer commande.");
+    } else if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
         const orderNumber = generateRandomOrderNumber();
 
         // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
 
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
         window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
+        alert("Commande validée avec succès");
         localStorage.clear();
     }
 });
+
+// Fonction pour générer un numéro de commande aléatoire
+function generateRandomOrderNumber() {
+    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
+}
+
