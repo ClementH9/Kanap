@@ -15,111 +15,87 @@ fetch(`http://localhost:3000/api/products`)
         return res.json();
     })
     // Traitement des données reçues du serveur
-    // Attendre la réponse du serveur et traiter les données reçues
-.then(function (data) {
-    // Récupération des données de l'API
-    for (let elData in data) {
-        // Récupération du contenu du panier depuis le Local Storage
-        let contentCart = getCart();
-        for (let elCart in contentCart) {
-            // Récupération de l'ID du produit dans le panier
-            let cartProductId = contentCart[elCart].productId;
-            // Récupération de l'ID du produit depuis les données de l'API
-            let dataProductId = data[elData]._id;
-            // Comparaison des IDs entre le panier et l'API pour trouver le produit correspondant
-            if (cartProductId == dataProductId) {
-                // Récupération de la couleur du produit dans le panier
-                let productColor = contentCart[elCart].productColor;
+    .then(function (data) {
+        // Récupération des données de l'API
+        for (let elData in data) {
+            let contentCart = getCart(); /* Stocke ce qu'il y a dans le panier */
+            for (let elCart in contentCart) {
+                let cartProductId = contentCart[elCart].productId; /* variable cartProductId récupère l'ID du produit dans le panier */
+                let dataProductId = data[elData]._id;
+                // Comparaison des infos entre panier et API
+                if (cartProductId == dataProductId) {
 
-                // Récupération de l'élément du DOM qui accueillera les produits du panier
-                const sectionCart = document.getElementById("cart__items");
+                    let productColor = contentCart[elCart].productColor;
 
-                // Crée un élément <article> pour afficher le produit du panier
-                const productArticle = document.createElement('article'); // Crée un nouvel élément <article> dans le DOM
-                productArticle.setAttribute("class", "cart__item"); // Ajoute la classe "cart__item" à l'élément <article>
-                productArticle.setAttribute("data-id", dataProductId); // Ajoute un attribut "data-id" avec la valeur de dataProductId
-                productArticle.setAttribute("data-color", productColor); // Ajoute un attribut "data-color" avec la valeur de productColor
-                sectionCart.appendChild(productArticle); // Ajoute l'élément <article> en tant qu'enfant de l'élément avec l'ID "cart__items" dans le DOM                
+                    const sectionCart = document.getElementById("cart__items"); // pointe vers l'id cart__items
 
-                // Crée un élément <div> pour afficher l'image du produit
-                let newProductImg = document.createElement('div');
-                newProductImg.setAttribute("class", "cart__item__img");
-                productArticle.appendChild(newProductImg);
+                    const productArticle = document.createElement('article');
+                    productArticle.setAttribute("class", "cart__item");
+                    productArticle.setAttribute("data-id", dataProductId);
+                    productArticle.setAttribute("data-color", productColor);
+                    sectionCart.appendChild(productArticle);
 
-                // Récupère l'URL de l'image du produit depuis les données de l'API
-                let productImg = data[elData].imageUrl;
-                const newProductImgTag = document.createElement('img');
-                newProductImgTag.setAttribute("src", productImg);
-                newProductImgTag.setAttribute("alt", data[elData].altTxt);
-                newProductImg.appendChild(newProductImgTag);
+                    let newProductImg = document.createElement('div');
+                    newProductImg.setAttribute("class", "cart__item__img");
+                    productArticle.appendChild(newProductImg);
 
-                // Crée un élément <div> pour afficher les détails du produit
-                let productContent = document.createElement('div');
-                productContent.setAttribute("class", "cart__item__content");
-                productArticle.appendChild(productContent);
+                    let productImg = data[elData].imageUrl;
+                    const newProductImgTag = document.createElement('img');
+                    newProductImgTag.setAttribute("src", productImg);
+                    newProductImgTag.setAttribute("alt", data[elData].altTxt);
+                    newProductImg.appendChild(newProductImgTag);
 
-                // Crée un élément <div> pour afficher la description du produit
-                let productDescription = document.createElement('div');
-                productDescription.setAttribute("class", "cart__item__content__description");
-                productContent.appendChild(productDescription);
+                    let productContent = document.createElement('div');
+                    productContent.setAttribute("class", "cart__item__content");
+                    productArticle.appendChild(productContent);
+                    let productDescription = document.createElement('div');
+                    productDescription.setAttribute("class", "cart__item__content__description");
+                    productContent.appendChild(productDescription);
 
-                // Récupère le nom du produit depuis les données de l'API
-                let productName = data[elData].name;
-                const titleProduct = document.createElement("h2");
-                titleProduct.innerText = productName;
-                productDescription.appendChild(titleProduct);
+                    let productName = data[elData].name;
+                    const titleProduct = document.createElement("h2");
+                    titleProduct.innerText = productName;
+                    productDescription.appendChild(titleProduct);
 
-                // Crée un paragraphe pour afficher la couleur du produit
-                const colorProduct = document.createElement("p");
-                colorProduct.innerText = "Couleur : " + productColor;
-                productDescription.appendChild(colorProduct);
+                    const colorProduct = document.createElement("p");
+                    colorProduct.innerText = "Couleur : " + productColor;
+                    productDescription.appendChild(colorProduct);
 
-                // Récupère le prix unitaire du produit depuis les données de l'API
-                let productPrice = data[elData].price;
-                const priceProduct = document.createElement("p");
-                priceProduct.innerHTML = 'Prix unitaire : <span class="prix_unitaire">' + productPrice + "</span> €";
-                productDescription.appendChild(priceProduct);
+                    let productPrice = data[elData].price;
+                    const priceProduct = document.createElement("p");
+                    priceProduct.innerHTML = 'Prix unitaire : <span class="prix_unitaire">' + productPrice + "</span> €";
 
-                // Crée un élément <div> pour afficher les paramètres du produit
-                let productSettings = document.createElement('div');
-                productSettings.setAttribute("class", "cart__item__content__settings");
-                productContent.appendChild(productSettings);
+                    productDescription.appendChild(priceProduct);
+                    let productSettings = document.createElement('div');
+                    productSettings.setAttribute("class", "cart__item__content__settings");
+                    productContent.appendChild(productSettings);
+                    let productSettingsQuantity = document.createElement('div');
+                    productSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity");
+                    productSettings.appendChild(productSettingsQuantity);
+                    let productQuantity = contentCart[elCart].productQuantity;
+                    const quantityProduct = document.createElement("p");
+                    quantityProduct.innerText = "Qté : ";
+                    productSettingsQuantity.appendChild(quantityProduct);
+                    let productSettingsQuantityInput = document.createElement('input');
+                    productSettingsQuantityInput.setAttribute("type", "number");
+                    productSettingsQuantityInput.setAttribute("class", "itemQuantity");
+                    productSettingsQuantityInput.setAttribute("name", "itemQuantity");
+                    productSettingsQuantityInput.setAttribute("min", "1");
+                    productSettingsQuantityInput.setAttribute("max", "100");
+                    productSettingsQuantityInput.setAttribute("value", productQuantity);
+                    productSettingsQuantity.appendChild(productSettingsQuantityInput);
 
-                // Crée un élément <div> pour afficher la quantité du produit
-                let productSettingsQuantity = document.createElement('div');
-                productSettingsQuantity.setAttribute("class", "cart__item__content__settings__quantity");
-                productSettings.appendChild(productSettingsQuantity);
-
-                // Récupère la quantité du produit depuis le panier
-                let productQuantity = contentCart[elCart].productQuantity;
-                const quantityProduct = document.createElement("p");
-                quantityProduct.innerText = "Qté : ";
-                productSettingsQuantity.appendChild(quantityProduct);
-
-                // Crée un input de type nombre pour permettre la modification de la quantité
-                let productSettingsQuantityInput = document.createElement('input');
-                productSettingsQuantityInput.setAttribute("type", "number");
-                productSettingsQuantityInput.setAttribute("class", "itemQuantity");
-                productSettingsQuantityInput.setAttribute("name", "itemQuantity");
-                productSettingsQuantityInput.setAttribute("min", "1");
-                productSettingsQuantityInput.setAttribute("max", "100");
-                productSettingsQuantityInput.setAttribute("value", productQuantity);
-                productSettingsQuantity.appendChild(productSettingsQuantityInput);
-
-                // Crée un élément <div> pour afficher l'option de suppression du produit
-                let deleteProduct = document.createElement('div');
-                deleteProduct.setAttribute("class", "cart__item__content__settings__delete");
-                productSettings.appendChild(deleteProduct);
-
-                // Crée un paragraphe pour le bouton de suppression
-                let deleteProductParagraphe = document.createElement('p');
-                deleteProductParagraphe.setAttribute("class", "deleteItem");
-                deleteProductParagraphe.innerText = "Supprimer";
-                deleteProduct.appendChild(deleteProductParagraphe);
+                    let deleteProduct = document.createElement('div');
+                    deleteProduct.setAttribute("class", "cart__item__content__settings__delete");
+                    productSettings.appendChild(deleteProduct);
+                    let deleteProductParagraphe = document.createElement('p');
+                    deleteProductParagraphe.setAttribute("class", "deleteItem");
+                    deleteProductParagraphe.innerText = "Supprimer";
+                    deleteProduct.appendChild(deleteProductParagraphe);
+                }
             }
         }
-    }
-})
+    })
     // Mettre à jour la quantité totale et le prix total après chaque modification du panier
     .then(function () {
         totalProductsQuantity();
@@ -127,22 +103,16 @@ fetch(`http://localhost:3000/api/products`)
     })
     // Ajouter des gestionnaires d'événements pour les modifications de quantité et les suppressions
     .then(function () {
-        // Sélectionner tous les éléments avec la classe "itemQuantity" (input de quantité)
         const recupQuantity = document.querySelectorAll(".itemQuantity");
-        // Ajouter un gestionnaire d'événement "change" à chaque élément
         recupQuantity.forEach((recupQuantity) => recupQuantity.addEventListener('change', function () {
-            // Appeler la fonction pour mettre à jour la quantité totale et le prix total
             totalProductsQuantity();
             totalProductsPrice();
         }))
     })
-// Ensuite, ajouter des gestionnaires d'événements pour les suppressions de produit
-.then(function () {
-    // Sélectionner tous les éléments avec la classe "deleteItem" (bouton de suppression)
-    const deleteOneProduct = document.querySelectorAll(".deleteItem");
-    // Ajouter un gestionnaire d'événement "click" à chaque élément
-    deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct));
-});
+    .then(function () {
+        const deleteOneProduct = document.querySelectorAll(".deleteItem");
+        deleteOneProduct.forEach((deleteOneProduct) => deleteOneProduct.addEventListener('click', deleteProduct));
+    });
 
 // Fonction pour calculer la quantité totale des produits dans le panier
 function totalProductsQuantity() {
@@ -156,18 +126,13 @@ function totalProductsQuantity() {
 
 // Fonction pour calculer le prix total des produits dans le panier
 function totalProductsPrice() {
-    let totalPrice = 0; // Initialise une variable pour stocker le prix total des produits dans le panier
-    const productPrice = document.querySelectorAll(".cart__item"); // Sélectionne tous les éléments avec la classe "cart__item"
-    let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire"); // Sélectionne tous les éléments avec la classe "prix_unitaire"
-    const recupQuantitePanier = document.querySelectorAll(".itemQuantity"); // Sélectionne tous les éléments avec la classe "itemQuantity"
-
-    // Boucle à travers tous les éléments avec la classe "cart__item"
+    let totalPrice = 0;
+    const productPrice = document.querySelectorAll(".cart__item");
+    let recupPrixUnitaire = document.querySelectorAll(".prix_unitaire");
+    const recupQuantitePanier = document.querySelectorAll(".itemQuantity");
     for (i = 0; i < productPrice.length; i++) {
-        // Calcul du prix total pour chaque produit en multipliant le prix unitaire par la quantité
-        totalPrice += parseInt(recupPrixUnitaire[i].textContent) * parseInt(recupQuantitePanier[i].value);
+        totalPrice += parseInt(recupPrixUnitaire[i].textContent * recupQuantitePanier[i].value);
     }
-
-    // Met à jour l'élément ayant l'ID "totalPrice" avec le prix total calculé
     document.getElementById("totalPrice").innerText = totalPrice;
 }
 
@@ -343,3 +308,27 @@ const validEmail = function (inputEmail) {
     }
 }
 
+// Écouter la soumission du formulaire
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    // Vérifier si le panier est vide
+    const cart = getCart(); // Récupérer le panier depuis le Local Storage
+    if (cart.length === 0) {
+        alert("Le panier est vide. Ajoutez des articles avant de passer commande.");
+    } else if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
+        const orderNumber = generateRandomOrderNumber();
+
+        // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
+
+        // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
+        window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
+        alert("Commande validée avec succès");
+        localStorage.clear();
+    }
+});
+
+// Fonction pour générer un numéro de commande aléatoire
+function generateRandomOrderNumber() {
+    return Math.floor(Math.random() * 1000000) + 1; // Vous pouvez ajuster la plage de numéros de commande selon vos besoins
+}
