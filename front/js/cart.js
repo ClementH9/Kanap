@@ -319,6 +319,70 @@ form.addEventListener("submit", function (e) {
     } else if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
         const orderNumber = generateRandomOrderNumber();
 
+        // Appel de la fonction creationContact() pour obtenir des données de contact
+        let contact = creationContact();
+
+        // Appel de la fonction creationTableau() pour obtenir des données de produits
+        let products = creationTableau();
+
+        // Création d'un objet "order" qui contient les données de contact et de produits
+        let order = { contact, products };
+
+        // Envoi d'une requête POST vers l'URL 'http://localhost:3000/api/products'
+        fetch('http://localhost:3000/api/products', {
+            method: "POST", // Méthode HTTP utilisée pour la requête
+            headers: { "Content-Type": "application/json" }, // En-tête de la requête spécifiant le type de contenu JSON
+            body: JSON.stringify(order), // Conversion de l'objet "order" en JSON et envoi comme corps de la requête
+        });
+        
+        // Fonction qui crée l'objet contact
+        function creationContact() {
+            // Récupérer la valeur du champ de formulaire "firstName"
+            let firstNameValue = document.getElementById("firstName").value;
+        
+            // Récupérer la valeur du champ de formulaire "lastName"
+            let lastNameValue = document.getElementById("lastName").value;
+        
+            // Récupérer la valeur du champ de formulaire "address"
+            let addressValue = document.getElementById("address").value;
+        
+            // Récupérer la valeur du champ de formulaire "city"
+            let cityValue = document.getElementById("city").value;
+        
+            // Récupérer la valeur du champ de formulaire "email"
+            let emailValue = document.getElementById("email").value;
+        
+            // Créer un objet "contact" avec les valeurs récupérées
+            const contact = {
+                firstName: firstNameValue,
+                lastName: lastNameValue,
+                address: addressValue,
+                city: cityValue,
+                email: emailValue,
+            };
+        
+            // Retourner l'objet "contact"
+            return contact;
+        }
+    
+    //Fonction qui récupère les produits à commander et les met dans un tableau
+    function creationTableau() {
+        // Sélectionner tous les éléments HTML de type "article"
+        let article = document.querySelectorAll("article");
+    
+        // Créer un tableau vide pour stocker les données des produits
+        let produits = [];
+    
+        // Parcourir tous les éléments "article"
+        for (let i = 0; i < article.length; i++) {
+            // Récupérer la valeur de l'attribut "data-id" de chaque élément "article"
+            produits.push(article[i].dataset.id);
+        }
+    
+        // Retourner le tableau contenant les valeurs des attributs "data-id"
+        return produits;
+    }
+
         // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
 
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
