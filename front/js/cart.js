@@ -331,13 +331,27 @@ form.addEventListener("submit", function (e) {
             method: "POST", // Méthode HTTP utilisée pour la requête
             headers: { "Content-Type": "application/json" }, // En-tête de la requête spécifiant le type de contenu JSON
             body: JSON.stringify(order), // Conversion de l'objet "order" en JSON et envoi comme corps de la requête
-        });
+        })
 
         .then(function (res) {
             if (res.ok) {
               return res.json();
             }
         })
+
+
+        // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
+
+        // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
+        .then(function (res) {
+            let orderId = res.orderId;
+            window.location.href = "./confirmation.html?orderNumber=" + orderId;  
+            return orderId;
+        });
+        alert("Commande validée avec succès");
+        localStorage.clear();
+    }
+});
 
         // Fonction qui crée l'objet contact
         function creationContact() {
@@ -386,19 +400,6 @@ form.addEventListener("submit", function (e) {
         // Retourner le tableau contenant les valeurs des attributs "data-id"
         return produits;
     }
-
-        // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
-
-        // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
-        .then(function (res) {
-            let orderId = res.orderId;
-            window.location.href = "./confirmation.html?orderNumber=" + orderId;  
-            return orderId;
-        });
-        alert("Commande validée avec succès");
-        localStorage.clear();
-    }
-});
 
 // Fonction pour générer un numéro de commande aléatoire
 function generateRandomOrderNumber() {
