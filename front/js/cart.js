@@ -317,8 +317,6 @@ form.addEventListener("submit", function (e) {
     if (cart.length === 0) {
         alert("Le panier est vide. Ajoutez des articles avant de passer commande.");
     } else if (validFirstName(form.firstName) && validLastName(form.lastName) && validAddress(form.address) && validCity(form.city) && validEmail(form.email)) {
-        const orderNumber = generateRandomOrderNumber();
-
         // Appel de la fonction creationContact() pour obtenir des données de contact
         let contact = creationContact();
 
@@ -334,7 +332,13 @@ form.addEventListener("submit", function (e) {
             headers: { "Content-Type": "application/json" }, // En-tête de la requête spécifiant le type de contenu JSON
             body: JSON.stringify(order), // Conversion de l'objet "order" en JSON et envoi comme corps de la requête
         });
-        
+
+        .then(function (res) {
+            if (res.ok) {
+              return res.json();
+            }
+        })
+
         // Fonction qui crée l'objet contact
         function creationContact() {
             // Récupérer la valeur du champ de formulaire "firstName"
@@ -386,7 +390,11 @@ form.addEventListener("submit", function (e) {
         // Maintenant, vous avez un numéro de commande aléatoire. Vous pouvez l'envoyer au serveur ou l'utiliser selon vos besoins.
 
         // Vous pouvez également rediriger vers la page de confirmation avec le numéro de commande dans l'URL.
-        window.location.href = "./confirmation.html?orderNumber=" + orderNumber;
+        .then(function (res) {
+            let orderId = res.orderId;
+            window.location.href = "./confirmation.html?orderNumber=" + orderId;  
+            return orderId;
+        });
         alert("Commande validée avec succès");
         localStorage.clear();
     }
