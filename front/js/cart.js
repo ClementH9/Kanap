@@ -327,7 +327,7 @@ form.addEventListener("submit", function (e) {
         let order = { contact, products };
 
         // Envoi d'une requête POST vers l'URL 'http://localhost:3000/api/products'
-        fetch('http://localhost:3000/api/products', {
+        fetch('http://localhost:3000/api/products/order', {
             method: "POST", // Méthode HTTP utilisée pour la requête
             headers: { "Content-Type": "application/json" }, // En-tête de la requête spécifiant le type de contenu JSON
             body: JSON.stringify(order), // Conversion de l'objet "order" en JSON et envoi comme corps de la requête
